@@ -1,0 +1,1939 @@
+{
+	"info": {
+		"_postman_id": "7e70635e-a697-4510-b3c6-0af00e568891",
+		"name": "BookerAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30204151"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Create Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Set the current token in collection variable\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.collectionVariables.set(\"token\", JSON.parse(responseBody).token);\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that respons body contain token\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Login Folder/Auth Request --> check that respons body contain token\",function()\r",
+									"{\r",
+									"    pm.expect(JSON.parse(responseBody)).to.have.property(\"token\")\r",
+									"}\r",
+									");\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response status code is 200 OK.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Login Folder/Auth Request --> Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the request method is POST\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(`Login Folder/Auth Request --> Request method should be POST`, function () {\r",
+									"    const actualMethod = pm.request.method;\r",
+									"    pm.expect(actualMethod).to.eql(\"POST\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response is in the expected format (JSON).\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Login Folder/Auth Request --> Response should be in JSON format\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response time is within acceptable limits.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"const responseTimeThreshold = 5000; \r",
+									"pm.test(`Login Folder/Auth Request --> check that Response time should be less than ${responseTimeThreshold}ms`, function () {\r",
+									"    const responseTime = pm.response.responseTime;\r",
+									"    pm.expect(responseTime).to.be.below(responseTimeThreshold);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"admin\",\r\n    \"password\" : \"password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Create Booking",
+			"item": [
+				{
+					"name": "Create Booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Set the new boking id in environment variable\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"var newBooking = JSON.parse(responseBody).bookingid;\r",
+									"pm.environment.set(\"B_id\", newBooking);\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response status code is 200 OK.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Create Booking Request --> Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the request method is POST\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(`Booking Folder/Create Booking Request -->  Request method should be POST`, function () {\r",
+									"    const actualMethod = pm.request.method;\r",
+									"    pm.expect(actualMethod).to.eql(\"POST\");\r",
+									"});\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response is in the expected format (JSON).\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Create Booking Request --> Response should be in JSON format\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response time is within acceptable limits.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"const responseTimeThreshold = 5000; \r",
+									"pm.test(`Booking Folder/Create Booking Request --> check that Response time should be less than ${responseTimeThreshold}ms`, function () {\r",
+									"    const responseTime = pm.response.responseTime;\r",
+									"    pm.expect(responseTime).to.be.below(responseTimeThreshold);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that value of any field is correct\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"var fname = pm.collectionVariables.get(\"First_Name\");\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check value of firstname\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).booking.firstname).to.be.equal(fname)\r",
+									"});\r",
+									"\r",
+									"var lname = pm.collectionVariables.get(\"Last_Name\");\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check value of lastname\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).booking.lastname).to.be.equal(lname)\r",
+									"});\r",
+									"\r",
+									"var TPrice = pm.collectionVariables.get(\"Total_Price\");\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check value of totalprice\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).booking.totalprice).to.be.equal(TPrice)\r",
+									"});\r",
+									"\r",
+									"var Dd = pm.collectionVariables.get(\"Depositpad\");\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check value of depositpaid\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).booking.depositpaid).to.be.equal(Dd)\r",
+									"});\r",
+									"\r",
+									"var CIn = pm.collectionVariables.get(\"CheckIn\");\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check value of checkin\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).booking.bookingdates.checkin).to.be.equal(CIn)\r",
+									"});\r",
+									"\r",
+									"var COut = pm.collectionVariables.get(\"CheckOut\");\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check value of checkout\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).booking.bookingdates.checkout).to.be.equal(COut)\r",
+									"});\r",
+									"\r",
+									"var AddNeeds = pm.collectionVariables.get(\"Additional_Needs\");\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check value of additionalneeds\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).booking.additionalneeds).to.be.equal(AddNeeds)\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response contains all the expected fields.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Create Booking Request --> Check that responce contains firstname\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).booking).to.have.property(\"firstname\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Create Booking Request --> Check that responce contains lastname\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).booking).to.have.property(\"lastname\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Create Booking Request --> Check that responce contains totalprice\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).booking).to.have.property(\"totalprice\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Create Booking Request --> Check that responce contains depositpaid\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).booking).to.have.property(\"depositpaid\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Create Booking Request --> Check that responce contains checkin\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).booking.bookingdates).to.have.property(\"checkin\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Create Booking Request --> Check that responce contains checkout\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).booking.bookingdates).to.have.property(\"checkout\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Create Booking Request --> Check that responce contains additionalneeds\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).booking).to.have.property(\"additionalneeds\")\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that any field in the API response not equel null.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Create Booking Request --> Check that firstname not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).booking.firstname).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Create Booking Request --> Check that lastname not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).booking.lastname).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Create Booking Request --> Check that totalprice not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).booking.totalprice).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Create Booking Request --> Check that depositpaid not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).booking.depositpaid).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Create Booking Request --> Check that checkin not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).booking.bookingdates.checkin).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Create Booking Request --> Check that checkout not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).booking.bookingdates.checkout).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Create Booking Request --> Check that additionalneeds not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).booking.additionalneeds).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that data type of any fields is correct\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Create Booking Request --> Check that data type of firstname\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).booking.firstname).to.be.equal(\"string\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Create Booking Request --> Check that data type of lastname\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).booking.lastname).to.be.equal(\"string\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Create Booking Request --> Check that data type of totalprice\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).booking.totalprice).to.be.equal(\"number\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Create Booking Request --> Check that data type of depositpaid\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).booking.depositpaid).to.be.equal(\"boolean\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Create Booking Request --> Check that data type of checkin\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).booking.bookingdates.checkin).to.be.equal(\"string\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Create Booking Request --> Check that data type of checkout\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).booking.bookingdates.checkout).to.be.equal(\"string\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Create Booking Request --> Check that data type of additionalneeds\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).booking.additionalneeds).to.be.equal(\"string\")\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//Generate Method To create Random First Name\r",
+									"function getRandomFirstName() {\r",
+									"  var firstNames = [\"John\", \"Jane\", \"Michael\", \"Emily\", \"David\", \"Sarah\", \"Daniel\", \"Emma\", \"Christopher\", \"Olivia\"];\r",
+									"  var randomIndex = Math.floor(Math.random() * firstNames.length);\r",
+									"  return firstNames[randomIndex];\r",
+									"}\r",
+									"pm.collectionVariables.set(\"First_Name\", getRandomFirstName());\r",
+									"//------------------------------------------------------------------------------------------\r",
+									"//Generate Method To create Random Last Name\r",
+									"function getRandomLastName() {\r",
+									"  var lastNames = [\"Smith\", \"Johnson\", \"Williams\", \"Brown\", \"Jones\", \"Miller\", \"Davis\", \"Garcia\", \"Wilson\", \"Taylor\"];\r",
+									"  var randomIndex = Math.floor(Math.random() * lastNames.length);\r",
+									"  return lastNames[randomIndex];\r",
+									"}\r",
+									"pm.collectionVariables.set(\"Last_Name\", getRandomLastName());\r",
+									"//------------------------------------------------------------------------------------------\r",
+									"//Generate Method To create Random Total Price\r",
+									"function getRandomTotalPrice() {\r",
+									"  var min = 100;\r",
+									"  var max = 1000;\r",
+									"  var randomNumber = Math.floor(Math.random() * (max - min + 1) + min);\r",
+									"  return randomNumber;\r",
+									"}\r",
+									"pm.collectionVariables.set(\"Total_Price\", getRandomTotalPrice());\r",
+									"//------------------------------------------------------------------------------------------\r",
+									"//Generate Method To Create Random Depositpad\r",
+									"function getRandomDepositpad() {\r",
+									"  return Math.random() < 0.5;\r",
+									"}\r",
+									"pm.collectionVariables.set(\"Depositpad\", getRandomDepositpad());\r",
+									"//------------------------------------------------------------------------------------------\r",
+									"//Generate Method To Create Random Check In Dates\r",
+									"function getRandomStartDate() {\r",
+									"  const startDate = new Date(\"1990-01-01\");\r",
+									"  const endDate = new Date(\"1999-12-31\");\r",
+									"  const checkInDate = new Date(startDate.getTime() + Math.floor(Math.random() * (endDate.getTime() - startDate.getTime())));\r",
+									"  const formatDate = checkInDate.toISOString().substring(0, 10);\r",
+									"  return formatDate;\r",
+									"}\r",
+									"pm.collectionVariables.set(\"CheckIn\", getRandomStartDate());\r",
+									"//------------------------------------------------------------------------------------------\r",
+									"//Generate Method To Create Random Check Out Dates\r",
+									"function getRandomEndDate() {\r",
+									"  const startDate = new Date(\"2000-01-01\");\r",
+									"  const endDate = new Date(\"2009-12-31\");\r",
+									"  const checkInDate = new Date(startDate.getTime() + Math.floor(Math.random() * (endDate.getTime() - startDate.getTime())));\r",
+									"  const formattedCheckInDate = checkInDate.toISOString().substring(0, 10);\r",
+									"  return formattedCheckInDate;\r",
+									"}\r",
+									"pm.collectionVariables.set(\"CheckOut\", getRandomEndDate());\r",
+									"//------------------------------------------------------------------------------------------\r",
+									"//Generate Method To Create Random Additional Needs\r",
+									"function getRandomAdditional() {\r",
+									"  var Additional = [\"Breakfast\", \"Lunch\", \"Dinner\"];\r",
+									"  var randomIndex = Math.floor(Math.random() * Additional.length);\r",
+									"  return Additional[randomIndex];\r",
+									"}\r",
+									"pm.collectionVariables.set(\"Additional_Needs\", getRandomAdditional());\r",
+									"//------------------------------------------------------------------------------------------"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\" : \"{{First_Name}}\",\r\n    \"lastname\" : \"{{Last_Name}}\",\r\n    \"totalprice\" : {{Total_Price}},\r\n    \"depositpaid\" : {{Depositpad}},\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"{{CheckIn}}\",\r\n        \"checkout\" : \"{{CheckOut}}\"\r\n    },\r\n    \"additionalneeds\" : \"{{Additional_Needs}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get Booking",
+			"item": [
+				{
+					"name": "Get All Booking ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Verify that the API response status code is 200 OK.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Get All Booking ID Request --> Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the request method is GET\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(`Booking Folder/Get All Booking ID Request --> check that Request method should be GET`, function () {\r",
+									"    const actualMethod = pm.request.method;\r",
+									"    pm.expect(actualMethod).to.eql(\"GET\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response is in the expected format (JSON).\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Get All Booking ID Request --> check that Response should be in JSON format\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response time is within acceptable limits.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"const responseTimeThreshold = 5000; \r",
+									"pm.test(`Booking Folder/Get All Booking ID Request --> check that Response time should be less than ${responseTimeThreshold}ms`, function () {\r",
+									"    const responseTime = pm.response.responseTime;\r",
+									"    pm.expect(responseTime).to.be.below(responseTimeThreshold);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/booking",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Booking by Specific ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Verify that the API response status code is 200 OK.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the request method is POST\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(`Booking Folder/Get Specific Booking Request --> check that Request method should be GET`, function () {\r",
+									"    const actualMethod = pm.request.method;\r",
+									"    pm.expect(actualMethod).to.eql(\"GET\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response is in the expected format (JSON).\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> check that Response should be in JSON format\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response time is within acceptable limits.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"const responseTimeThreshold = 5000; \r",
+									"pm.test(`Booking Folder/Get Specific Booking Request --> check that Response time should be less than ${responseTimeThreshold}ms`, function () {\r",
+									"    const responseTime = pm.response.responseTime;\r",
+									"    pm.expect(responseTime).to.be.below(responseTimeThreshold);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that value of any field is correct\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"var fname = pm.collectionVariables.get(\"First_Name\");\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check value of firstname\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).firstname).to.be.equal(fname)\r",
+									"});\r",
+									"\r",
+									"var lname = pm.collectionVariables.get(\"Last_Name\");\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check value of lastname\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).lastname).to.be.equal(lname)\r",
+									"});\r",
+									"\r",
+									"var TPrice = pm.collectionVariables.get(\"Total_Price\");\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check value of totalprice\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).totalprice).to.be.equal(TPrice)\r",
+									"});\r",
+									"\r",
+									"var Dd = pm.collectionVariables.get(\"Depositpad\");\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check value of depositpaid\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).depositpaid).to.be.equal(Dd)\r",
+									"});\r",
+									"\r",
+									"var CIn = pm.collectionVariables.get(\"CheckIn\");\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check value of checkin\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).bookingdates.checkin).to.be.equal(CIn)\r",
+									"});\r",
+									"\r",
+									"var COut = pm.collectionVariables.get(\"CheckOut\");\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check value of checkout\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).bookingdates.checkout).to.be.equal(COut)\r",
+									"});\r",
+									"\r",
+									"var AddNeeds = pm.collectionVariables.get(\"Additional_Needs\");\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check value of additionalneeds\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).additionalneeds).to.be.equal(AddNeeds)\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response contains all the expected fields.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check that responce contains firstname\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody)).to.have.property(\"firstname\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check that responce contains lastname\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody)).to.have.property(\"lastname\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check that responce contains totalprice\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody)).to.have.property(\"totalprice\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check that responce contains depositpaid\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody)).to.have.property(\"depositpaid\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check that responce contains checkin\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).bookingdates).to.have.property(\"checkin\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check that responce contains checkout\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).bookingdates).to.have.property(\"checkout\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check that responce contains additionalneeds\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody)).to.have.property(\"additionalneeds\")\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that any field in the API response not equel null.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check that firstname not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).firstname).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check that lastname not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).lastname).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check that totalprice not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).totalprice).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check that depositpaid not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).depositpaid).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check that checkin not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).bookingdates.checkin).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check that checkout not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).bookingdates.checkout).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check that additionalneeds not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).additionalneeds).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that data type of any fields is correct\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check that data type of firstname\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).firstname).to.be.equal(\"string\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check that data type of lastname\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).lastname).to.be.equal(\"string\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check that data type of totalprice\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).totalprice).to.be.equal(\"number\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check that data type of depositpaid\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).depositpaid).to.be.equal(\"boolean\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check that data type of checkin\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).bookingdates.checkin).to.be.equal(\"string\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check that data type of checkout\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).bookingdates.checkout).to.be.equal(\"string\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check that data type of additionalneeds\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).additionalneeds).to.be.equal(\"string\")\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that value of any field is correct\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"var fname = pm.collectionVariables.get(\"First_Name\");\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check value of firstname\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).firstname).to.be.equal(fname)\r",
+									"});\r",
+									"\r",
+									"var lname = pm.collectionVariables.get(\"Last_Name\");\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check value of lastname\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).lastname).to.be.equal(lname)\r",
+									"});\r",
+									"\r",
+									"var TPrice = pm.collectionVariables.get(\"Total_Price\");\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check value of totalprice\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).totalprice).to.be.equal(TPrice)\r",
+									"});\r",
+									"\r",
+									"var Dd = pm.collectionVariables.get(\"Depositpad\");\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check value of depositpaid\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).depositpaid).to.be.equal(Dd)\r",
+									"});\r",
+									"\r",
+									"var CIn = pm.collectionVariables.get(\"CheckIn\");\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check value of checkin\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).bookingdates.checkin).to.be.equal(CIn)\r",
+									"});\r",
+									"\r",
+									"var COut = pm.collectionVariables.get(\"CheckOut\");\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check value of checkout\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).bookingdates.checkout).to.be.equal(COut)\r",
+									"});\r",
+									"\r",
+									"var AddNeeds = pm.collectionVariables.get(\"Additional_Needs\");\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Check value of additionalneeds\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).additionalneeds).to.be.equal(AddNeeds)\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/booking/{{B_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"{{B_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Booking by Non Existing ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Verify that the API response status code is 404 Not Found.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the request method is GET\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(`Booking Folder/Get Specific Booking Request --> check that Request method should be GET`, function () {\r",
+									"    const actualMethod = pm.request.method;\r",
+									"    pm.expect(actualMethod).to.eql(\"GET\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response is in the expected text format.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> check that Response should be in Text format\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response time is within acceptable limits.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"const responseTimeThreshold = 5000; \r",
+									"pm.test(`Booking Folder/Get Specific Booking Request --> check that Response time should be less than ${responseTimeThreshold}ms`, function () {\r",
+									"    const responseTime = pm.response.responseTime;\r",
+									"    pm.expect(responseTime).to.be.below(responseTimeThreshold);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/booking/0",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Booking by First Name and Last Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Verify that the API response status code is 200 OK.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the request method is GET\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(`Booking Folder/Get Specific Booking Request --> check that Request method should be GET`, function () {\r",
+									"    const actualMethod = pm.request.method;\r",
+									"    pm.expect(actualMethod).to.eql(\"GET\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response is in the expected format (JSON).\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Get Specific Booking Request --> check that Response should be in JSON format\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response time is within acceptable limits.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"const responseTimeThreshold = 5000; \r",
+									"pm.test(`Booking Folder/Get Specific Booking Request --> check that Response time should be less than ${responseTimeThreshold}ms`, function () {\r",
+									"    const responseTime = pm.response.responseTime;\r",
+									"    pm.expect(responseTime).to.be.below(responseTimeThreshold);\r",
+									"});\r",
+									"\r",
+									"var id = pm.collectionVariables.get(\"{{B_id}}\");\r",
+									"pm.test(\"Booking Folder/Create Booking Request --> Check that Bookingid of response is correct \",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).bookingid).to.be.equal(id)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/booking/?firstname={{First_Name}}&lastname={{Last_Name}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								""
+							],
+							"query": [
+								{
+									"key": "firstname",
+									"value": "{{First_Name}}"
+								},
+								{
+									"key": "lastname",
+									"value": "{{Last_Name}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Update Booking",
+			"item": [
+				{
+					"name": "Update Booking by Valid Data",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//Generate Method To create Random First Name\r",
+									"function getRandomFirstName() {\r",
+									"  var firstNames = [\"John\", \"Jane\", \"Michael\", \"Emily\", \"David\", \"Sarah\", \"Daniel\", \"Emma\", \"Christopher\", \"Olivia\"];\r",
+									"  var randomIndex = Math.floor(Math.random() * firstNames.length);\r",
+									"  return firstNames[randomIndex];\r",
+									"}\r",
+									"pm.collectionVariables.set(\"First_Name\", getRandomFirstName());\r",
+									"//------------------------------------------------------------------------------------------\r",
+									"//Generate Method To create Random Last Name\r",
+									"function getRandomLastName() {\r",
+									"  var lastNames = [\"Smith\", \"Johnson\", \"Williams\", \"Brown\", \"Jones\", \"Miller\", \"Davis\", \"Garcia\", \"Wilson\", \"Taylor\"];\r",
+									"  var randomIndex = Math.floor(Math.random() * lastNames.length);\r",
+									"  return lastNames[randomIndex];\r",
+									"}\r",
+									"pm.collectionVariables.set(\"Last_Name\", getRandomLastName());\r",
+									"//------------------------------------------------------------------------------------------\r",
+									"//Generate Method To create Random Total Price\r",
+									"function getRandomTotalPrice() {\r",
+									"  var min = 100;\r",
+									"  var max = 1000;\r",
+									"  var randomNumber = Math.floor(Math.random() * (max - min + 1) + min);\r",
+									"  return randomNumber;\r",
+									"}\r",
+									"pm.collectionVariables.set(\"Total_Price\", getRandomTotalPrice());\r",
+									"//------------------------------------------------------------------------------------------\r",
+									"//Generate Method To Create Random Depositpad\r",
+									"function getRandomDepositpad() {\r",
+									"  return Math.random() < 0.5;\r",
+									"}\r",
+									"pm.collectionVariables.set(\"Depositpad\", getRandomDepositpad());\r",
+									"//------------------------------------------------------------------------------------------\r",
+									"//Generate Method To Create Random Check In Dates\r",
+									"function getRandomStartDate() {\r",
+									"  const startDate = new Date(\"1990-01-01\");\r",
+									"  const endDate = new Date(\"1999-12-31\");\r",
+									"  const checkInDate = new Date(startDate.getTime() + Math.floor(Math.random() * (endDate.getTime() - startDate.getTime())));\r",
+									"  const formatDate = checkInDate.toISOString().substring(0, 10);\r",
+									"  return formatDate;\r",
+									"}\r",
+									"pm.collectionVariables.set(\"CheckIn\", getRandomStartDate());\r",
+									"//------------------------------------------------------------------------------------------\r",
+									"//Generate Method To Create Random Check Out Dates\r",
+									"function getRandomEndDate() {\r",
+									"  const startDate = new Date(\"2000-01-01\");\r",
+									"  const endDate = new Date(\"2009-12-31\");\r",
+									"  const checkInDate = new Date(startDate.getTime() + Math.floor(Math.random() * (endDate.getTime() - startDate.getTime())));\r",
+									"  const formattedCheckInDate = checkInDate.toISOString().substring(0, 10);\r",
+									"  return formattedCheckInDate;\r",
+									"}\r",
+									"pm.collectionVariables.set(\"CheckOut\", getRandomEndDate());\r",
+									"//------------------------------------------------------------------------------------------\r",
+									"//Generate Method To Create Random Additional Needs\r",
+									"function getRandomAdditional() {\r",
+									"  var Additional = [\"Breakfast\", \"Lunch\", \"Dinner\"];\r",
+									"  var randomIndex = Math.floor(Math.random() * Additional.length);\r",
+									"  return Additional[randomIndex];\r",
+									"}\r",
+									"pm.collectionVariables.set(\"Additional_Needs\", getRandomAdditional());\r",
+									"//------------------------------------------------------------------------------------------"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Verify that the API response status code is 200 OK.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the request method is PUT\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(`Booking Folder/Update Booking Request --> check that Request method should be PUT`, function () {\r",
+									"    const actualMethod = pm.request.method;\r",
+									"    pm.expect(actualMethod).to.eql(\"PUT\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response is in the expected format (JSON).\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> check that Response should be in JSON format\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response time is within acceptable limits.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"const responseTimeThreshold = 5000; \r",
+									"pm.test(`Booking Folder/Update Booking Request --> check that Response time should be less than ${responseTimeThreshold}ms`, function () {\r",
+									"    const responseTime = pm.response.responseTime;\r",
+									"    pm.expect(responseTime).to.be.below(responseTimeThreshold);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that value of any field is correct\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"var fname = pm.collectionVariables.get(\"First_Name\");\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check value of firstname\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).firstname).to.be.equal(fname)\r",
+									"});\r",
+									"\r",
+									"var lname = pm.collectionVariables.get(\"Last_Name\");\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check value of lastname\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).lastname).to.be.equal(lname)\r",
+									"});\r",
+									"\r",
+									"var TPrice = pm.collectionVariables.get(\"Total_Price\");\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check value of totalprice\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).totalprice).to.be.equal(TPrice)\r",
+									"});\r",
+									"\r",
+									"var Dd = pm.collectionVariables.get(\"Depositpad\");\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check value of depositpaid\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).depositpaid).to.be.equal(Dd)\r",
+									"});\r",
+									"\r",
+									"var CIn = pm.collectionVariables.get(\"CheckIn\");\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check value of checkin\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).bookingdates.checkin).to.be.equal(CIn)\r",
+									"});\r",
+									"\r",
+									"var COut = pm.collectionVariables.get(\"CheckOut\");\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check value of checkout\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).bookingdates.checkout).to.be.equal(COut)\r",
+									"});\r",
+									"\r",
+									"var AddNeeds = pm.collectionVariables.get(\"Additional_Needs\");\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check value of additionalneeds\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).additionalneeds).to.be.equal(AddNeeds)\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response contains all the expected fields.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check that responce contains firstname\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody)).to.have.property(\"firstname\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check that responce contains lastname\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody)).to.have.property(\"lastname\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check that responce contains totalprice\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody)).to.have.property(\"totalprice\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check that responce contains depositpaid\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody)).to.have.property(\"depositpaid\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check that responce contains checkin\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).bookingdates).to.have.property(\"checkin\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check that responce contains checkout\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).bookingdates).to.have.property(\"checkout\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check that responce contains additionalneeds\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody)).to.have.property(\"additionalneeds\")\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that any field in the API response not equel null.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check that firstname not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).firstname).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check that lastname not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).lastname).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check that totalprice not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).totalprice).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check that depositpaid not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).depositpaid).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check that checkin not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).bookingdates.checkin).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check that checkout not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).bookingdates.checkout).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check that additionalneeds not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).additionalneeds).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that data type of any fields is correct\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check that data type of firstname\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).firstname).to.be.equal(\"string\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check that data type of lastname\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).lastname).to.be.equal(\"string\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check that data type of totalprice\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).totalprice).to.be.equal(\"number\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check that data type of depositpaid\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).depositpaid).to.be.equal(\"boolean\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check that data type of checkin\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).bookingdates.checkin).to.be.equal(\"string\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check that data type of checkout\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).bookingdates.checkout).to.be.equal(\"string\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Update Booking Request --> Check that data type of additionalneeds\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).additionalneeds).to.be.equal(\"string\")\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Cookie",
+								"value": "token={{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46cGFzc3dvcmQxMjM=",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\" : \"{{First_Name}}\",\r\n    \"lastname\" : \"{{Last_Name}}\",\r\n    \"totalprice\" : {{Total_Price}},\r\n    \"depositpaid\" : {{Depositpad}},\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"{{CheckIn}}\",\r\n        \"checkout\" : \"{{CheckOut}}\"\r\n    },\r\n    \"additionalneeds\" : \"{{Additional_Needs}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/booking/{{B_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"{{B_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Partial Update Booking by Valid Data",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//Generate Method To Create Random Check In Dates\r",
+									"function getRandomStartDate() {\r",
+									"  const startDate = new Date(\"1990-01-01\");\r",
+									"  const endDate = new Date(\"1999-12-31\");\r",
+									"  const checkInDate = new Date(startDate.getTime() + Math.floor(Math.random() * (endDate.getTime() - startDate.getTime())));\r",
+									"  const formatDate = checkInDate.toISOString().substring(0, 10);\r",
+									"  return formatDate;\r",
+									"}\r",
+									"pm.collectionVariables.set(\"CheckIn\", getRandomStartDate());\r",
+									"//------------------------------------------------------------------------------------------\r",
+									"//Generate Method To Create Random Check Out Dates\r",
+									"function getRandomEndDate() {\r",
+									"  const startDate = new Date(\"2000-01-01\");\r",
+									"  const endDate = new Date(\"2009-12-31\");\r",
+									"  const checkInDate = new Date(startDate.getTime() + Math.floor(Math.random() * (endDate.getTime() - startDate.getTime())));\r",
+									"  const formattedCheckInDate = checkInDate.toISOString().substring(0, 10);\r",
+									"  return formattedCheckInDate;\r",
+									"}\r",
+									"pm.collectionVariables.set(\"CheckOut\", getRandomEndDate());\r",
+									"//------------------------------------------------------------------------------------------"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Verify that the API response status code is 200 OK.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the request method is PATCH\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(`Booking Folder/Partial Update Booking Request --> check that Request method should be PATCH`, function () {\r",
+									"    const actualMethod = pm.request.method;\r",
+									"    pm.expect(actualMethod).to.eql(\"PATCH\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response is in the expected format (JSON).\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> check that Response should be in JSON format\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response time is within acceptable limits.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"const responseTimeThreshold = 5000; \r",
+									"pm.test(`Booking Folder/Partial Update Booking Request --> check that Response time should be less than ${responseTimeThreshold}ms`, function () {\r",
+									"    const responseTime = pm.response.responseTime;\r",
+									"    pm.expect(responseTime).to.be.below(responseTimeThreshold);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that value of any field is correct\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"var fname = pm.collectionVariables.get(\"First_Name\");\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check value of firstname\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).firstname).to.be.equal(fname)\r",
+									"});\r",
+									"\r",
+									"var lname = pm.collectionVariables.get(\"Last_Name\");\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check value of lastname\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).lastname).to.be.equal(lname)\r",
+									"});\r",
+									"\r",
+									"var TPrice = pm.collectionVariables.get(\"Total_Price\");\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check value of totalprice\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).totalprice).to.be.equal(TPrice)\r",
+									"});\r",
+									"\r",
+									"var Dd = pm.collectionVariables.get(\"Depositpad\");\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check value of depositpaid\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).depositpaid).to.be.equal(Dd)\r",
+									"});\r",
+									"\r",
+									"var CIn = pm.collectionVariables.get(\"CheckIn\");\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check value of checkin\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).bookingdates.checkin).to.be.equal(CIn)\r",
+									"});\r",
+									"\r",
+									"var COut = pm.collectionVariables.get(\"CheckOut\");\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check value of checkout\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).bookingdates.checkout).to.be.equal(COut)\r",
+									"});\r",
+									"\r",
+									"var AddNeeds = pm.collectionVariables.get(\"Additional_Needs\");\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check value of additionalneeds\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).additionalneeds).to.be.equal(AddNeeds)\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response contains all the expected fields.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check that responce contains firstname\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody)).to.have.property(\"firstname\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check that responce contains lastname\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody)).to.have.property(\"lastname\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check that responce contains totalprice\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody)).to.have.property(\"totalprice\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check that responce contains depositpaid\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody)).to.have.property(\"depositpaid\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check that responce contains checkin\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).bookingdates).to.have.property(\"checkin\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check that responce contains checkout\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).bookingdates).to.have.property(\"checkout\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check that responce contains additionalneeds\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody)).to.have.property(\"additionalneeds\")\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that any field in the API response not equel null.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check that firstname not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).firstname).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check that lastname not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).lastname).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check that totalprice not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).totalprice).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check that depositpaid not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).depositpaid).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check that checkin not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).bookingdates.checkin).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check that checkout not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).bookingdates.checkout).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check that additionalneeds not equel null\",function(){\r",
+									"    pm.expect(JSON.parse(responseBody).additionalneeds).to.not.equal(null)\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that data type of any fields is correct\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check that data type of firstname\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).firstname).to.be.equal(\"string\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check that data type of lastname\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).lastname).to.be.equal(\"string\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check that data type of totalprice\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).totalprice).to.be.equal(\"number\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check that data type of depositpaid\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).depositpaid).to.be.equal(\"boolean\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check that data type of checkin\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).bookingdates.checkin).to.be.equal(\"string\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check that data type of checkout\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).bookingdates.checkout).to.be.equal(\"string\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking Folder/Partial Update Booking Request --> Check that data type of additionalneeds\",function(){\r",
+									"    pm.expect(typeof JSON.parse(responseBody).additionalneeds).to.be.equal(\"string\")\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Cookie",
+								"value": "token={{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46cGFzc3dvcmQxMjM=",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"{{CheckIn}}\",\r\n        \"checkout\" : \"{{CheckOut}}\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/booking/{{B_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"{{B_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete Booking",
+			"item": [
+				{
+					"name": "Delete Booking by Specific ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Verify that the API response status code is 201 OK.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Delete Booking Request --> Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the request method is DELETE\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(`Booking Folder/Delete Booking Request --> check that Request method should be DELETE`, function () {\r",
+									"    const actualMethod = pm.request.method;\r",
+									"    pm.expect(actualMethod).to.eql(\"DELETE\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response is in the expected text format.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Booking Folder/Delete Booking Request --> check that Response should be in JSON format\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response time is within acceptable limits.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"const responseTimeThreshold = 5000; \r",
+									"pm.test(`Booking Folder/Delete Booking Request --> check that Response time should be less than ${responseTimeThreshold}ms`, function () {\r",
+									"    const responseTime = pm.response.responseTime;\r",
+									"    pm.expect(responseTime).to.be.below(responseTimeThreshold);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "token={{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46cGFzc3dvcmQxMjM=",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking/{{B_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"{{B_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ping",
+			"item": [
+				{
+					"name": "Health Check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Verify that the API response status code is 201 OK.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Ping Folder/Health Check Request --> Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the request method is GET\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(`Ping Folder/Health Check Request --> check that Request method should be GET`, function () {\r",
+									"    const actualMethod = pm.request.method;\r",
+									"    pm.expect(actualMethod).to.eql(\"GET\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response is in the expected text format.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"pm.test(\"Ping Folder/Health Check Request --> check that Response should be in JSON format\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API response time is within acceptable limits.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"const responseTimeThreshold = 5000; \r",
+									"pm.test(`Ping Folder/Health Check Request --> check that Response time should be less than ${responseTimeThreshold}ms`, function () {\r",
+									"    const responseTime = pm.response.responseTime;\r",
+									"    pm.expect(responseTime).to.be.below(responseTimeThreshold);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"//Verify that the API endpoint URL is correct.\r",
+									"//----------------------------------------------------------------------------------------\r",
+									"const expectedURL = \"https://restful-booker.herokuapp.com/ping\";\r",
+									"pm.test(`Ping Folder/Health Check Request --> check that Endpoint URL should be ${expectedURL}`, function () {\r",
+									"    const actualURL = pm.request.url.toString();\r",
+									"    pm.expect(actualURL).to.eql(expectedURL);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/ping",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"ping"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Update Booking by Invalid  First Name",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//------------------------------------------------------------------------------------------\r",
+							"//Generate Method To create Random Last Name\r",
+							"function getRandomLastName() {\r",
+							"  var lastNames = [\"Smith\", \"Johnson\", \"Williams\", \"Brown\", \"Jones\", \"Miller\", \"Davis\", \"Garcia\", \"Wilson\", \"Taylor\"];\r",
+							"  var randomIndex = Math.floor(Math.random() * lastNames.length);\r",
+							"  return lastNames[randomIndex];\r",
+							"}\r",
+							"pm.collectionVariables.set(\"Last_Name\", getRandomLastName());\r",
+							"//------------------------------------------------------------------------------------------\r",
+							"//Generate Method To create Random Total Price\r",
+							"function getRandomTotalPrice() {\r",
+							"  var min = 100;\r",
+							"  var max = 1000;\r",
+							"  var randomNumber = Math.floor(Math.random() * (max - min + 1) + min);\r",
+							"  return randomNumber;\r",
+							"}\r",
+							"pm.collectionVariables.set(\"Total_Price\", getRandomTotalPrice());\r",
+							"//------------------------------------------------------------------------------------------\r",
+							"//Generate Method To Create Random Depositpad\r",
+							"function getRandomDepositpad() {\r",
+							"  return Math.random() < 0.5;\r",
+							"}\r",
+							"pm.collectionVariables.set(\"Depositpad\", getRandomDepositpad());\r",
+							"//------------------------------------------------------------------------------------------\r",
+							"//Generate Method To Create Random Check In Dates\r",
+							"function getRandomStartDate() {\r",
+							"  const startDate = new Date(\"1990-01-01\");\r",
+							"  const endDate = new Date(\"1999-12-31\");\r",
+							"  const checkInDate = new Date(startDate.getTime() + Math.floor(Math.random() * (endDate.getTime() - startDate.getTime())));\r",
+							"  const formatDate = checkInDate.toISOString().substring(0, 10);\r",
+							"  return formatDate;\r",
+							"}\r",
+							"pm.collectionVariables.set(\"CheckIn\", getRandomStartDate());\r",
+							"//------------------------------------------------------------------------------------------\r",
+							"//Generate Method To Create Random Check Out Dates\r",
+							"function getRandomEndDate() {\r",
+							"  const startDate = new Date(\"2000-01-01\");\r",
+							"  const endDate = new Date(\"2009-12-31\");\r",
+							"  const checkInDate = new Date(startDate.getTime() + Math.floor(Math.random() * (endDate.getTime() - startDate.getTime())));\r",
+							"  const formattedCheckInDate = checkInDate.toISOString().substring(0, 10);\r",
+							"  return formattedCheckInDate;\r",
+							"}\r",
+							"pm.collectionVariables.set(\"CheckOut\", getRandomEndDate());\r",
+							"//------------------------------------------------------------------------------------------\r",
+							"//Generate Method To Create Random Additional Needs\r",
+							"function getRandomAdditional() {\r",
+							"  var Additional = [\"Breakfast\", \"Lunch\", \"Dinner\"];\r",
+							"  var randomIndex = Math.floor(Math.random() * Additional.length);\r",
+							"  return Additional[randomIndex];\r",
+							"}\r",
+							"pm.collectionVariables.set(\"Additional_Needs\", getRandomAdditional());\r",
+							"//------------------------------------------------------------------------------------------"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Verify that the response is fail\r",
+							"//----------------------------------------------------------------------------------------\r",
+							"pm.test(\"Create fails\", function () {\r",
+							"    pm.response.to.not.have.success;\r",
+							"});\r",
+							"\r",
+							"\r",
+							"//----------------------------------------------------------------------------------------\r",
+							"//Verify that the request method is PUT\r",
+							"//----------------------------------------------------------------------------------------\r",
+							"pm.test(`Booking Folder/Update Booking Request --> check that Request method should be PUT`, function () {\r",
+							"    const actualMethod = pm.request.method;\r",
+							"    pm.expect(actualMethod).to.eql(\"PUT\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"//----------------------------------------------------------------------------------------\r",
+							"//Verify that the API response is in the expected test format.\r",
+							"//----------------------------------------------------------------------------------------\r",
+							"pm.test(\"Booking Folder/Update Booking Request --> check that Response should be in Text format\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"//----------------------------------------------------------------------------------------\r",
+							"//Verify that the API response time is within acceptable limits.\r",
+							"//----------------------------------------------------------------------------------------\r",
+							"const responseTimeThreshold = 5000; \r",
+							"pm.test(`Booking Folder/Update Booking Request --> check that Response time should be less than ${responseTimeThreshold}ms`, function () {\r",
+							"    const responseTime = pm.response.responseTime;\r",
+							"    pm.expect(responseTime).to.be.below(responseTimeThreshold);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Cookie",
+						"value": "token={{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46cGFzc3dvcmQxMjM=",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\" : null,\r\n    \"lastname\" : \"{{Last_Name}}\",\r\n    \"totalprice\" : {{Total_Price}},\r\n    \"depositpaid\" : {{Depositpad}},\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"{{CheckIn}}\",\r\n        \"checkout\" : \"{{CheckOut}}\"\r\n    },\r\n    \"additionalneeds\" : \"{{Additional_Needs}}\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/booking/{{B_id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"booking",
+						"{{B_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Booking by First Name Null",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Verify that the response is fail",
+							"//----------------------------------------------------------------------------------------",
+							"pm.test(\"Create fails\", function () {",
+							"    pm.response.to.not.have.success;",
+							"});",
+							"",
+							"",
+							"",
+							"//----------------------------------------------------------------------------------------",
+							"//Verify that the request method is POST",
+							"//----------------------------------------------------------------------------------------",
+							"pm.test(`Booking Folder/Create Booking Request -->  Request method should be POST`, function () {",
+							"    const actualMethod = pm.request.method;",
+							"    pm.expect(actualMethod).to.eql(\"POST\");",
+							"});",
+							"",
+							"",
+							"",
+							"",
+							"//----------------------------------------------------------------------------------------",
+							"//Verify that the API response is in the expected text format.",
+							"//----------------------------------------------------------------------------------------",
+							"pm.test(\"Booking Folder/Create Booking Request --> Response should be in Text format\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");",
+							"});",
+							"",
+							"",
+							"",
+							"//----------------------------------------------------------------------------------------",
+							"//Verify that the API response time is within acceptable limits.",
+							"//----------------------------------------------------------------------------------------",
+							"const responseTimeThreshold = 5000; ",
+							"pm.test(`Booking Folder/Create Booking Request --> check that Response time should be less than ${responseTimeThreshold}ms`, function () {",
+							"    const responseTime = pm.response.responseTime;",
+							"    pm.expect(responseTime).to.be.below(responseTimeThreshold);",
+							"});",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//Generate Method To create Random Last Name\r",
+							"function getRandomLastName() {\r",
+							"  var lastNames = [\"Smith\", \"Johnson\", \"Williams\", \"Brown\", \"Jones\", \"Miller\", \"Davis\", \"Garcia\", \"Wilson\", \"Taylor\"];\r",
+							"  var randomIndex = Math.floor(Math.random() * lastNames.length);\r",
+							"  return lastNames[randomIndex];\r",
+							"}\r",
+							"pm.collectionVariables.set(\"Last_Name\", getRandomLastName());\r",
+							"//------------------------------------------------------------------------------------------\r",
+							"//Generate Method To create Random Total Price\r",
+							"function getRandomTotalPrice() {\r",
+							"  var min = 100;\r",
+							"  var max = 1000;\r",
+							"  var randomNumber = Math.floor(Math.random() * (max - min + 1) + min);\r",
+							"  return randomNumber;\r",
+							"}\r",
+							"pm.collectionVariables.set(\"Total_Price\", getRandomTotalPrice());\r",
+							"//------------------------------------------------------------------------------------------\r",
+							"//Generate Method To Create Random Depositpad\r",
+							"function getRandomDepositpad() {\r",
+							"  return Math.random() < 0.5;\r",
+							"}\r",
+							"pm.collectionVariables.set(\"Depositpad\", getRandomDepositpad());\r",
+							"//------------------------------------------------------------------------------------------\r",
+							"//Generate Method To Create Random Check In Dates\r",
+							"function getRandomStartDate() {\r",
+							"  const startDate = new Date(\"1990-01-01\");\r",
+							"  const endDate = new Date(\"1999-12-31\");\r",
+							"  const checkInDate = new Date(startDate.getTime() + Math.floor(Math.random() * (endDate.getTime() - startDate.getTime())));\r",
+							"  const formatDate = checkInDate.toISOString().substring(0, 10);\r",
+							"  return formatDate;\r",
+							"}\r",
+							"pm.collectionVariables.set(\"CheckIn\", getRandomStartDate());\r",
+							"//------------------------------------------------------------------------------------------\r",
+							"//Generate Method To Create Random Check Out Dates\r",
+							"function getRandomEndDate() {\r",
+							"  const startDate = new Date(\"2000-01-01\");\r",
+							"  const endDate = new Date(\"2009-12-31\");\r",
+							"  const checkInDate = new Date(startDate.getTime() + Math.floor(Math.random() * (endDate.getTime() - startDate.getTime())));\r",
+							"  const formattedCheckInDate = checkInDate.toISOString().substring(0, 10);\r",
+							"  return formattedCheckInDate;\r",
+							"}\r",
+							"pm.collectionVariables.set(\"CheckOut\", getRandomEndDate());\r",
+							"//------------------------------------------------------------------------------------------\r",
+							"//Generate Method To Create Random Additional Needs\r",
+							"function getRandomAdditional() {\r",
+							"  var Additional = [\"Breakfast\", \"Lunch\", \"Dinner\"];\r",
+							"  var randomIndex = Math.floor(Math.random() * Additional.length);\r",
+							"  return Additional[randomIndex];\r",
+							"}\r",
+							"pm.collectionVariables.set(\"Additional_Needs\", getRandomAdditional());\r",
+							"//------------------------------------------------------------------------------------------"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstname\" : null,\n    \"lastname\" : \"{{Last_Name}}\",\n    \"totalprice\" : {{Total_Price}},\n    \"depositpaid\" : {{Depositpad}},\n    \"bookingdates\" : {\n        \"checkin\" : \"{{CheckIn}}\",\n        \"checkout\" : \"{{CheckOut}}\"\n    },\n    \"additionalneeds\" : \"{{Additional_Needs}}\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/booking",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"booking"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "First_Name",
+			"value": ""
+		},
+		{
+			"key": "Last_Name",
+			"value": ""
+		},
+		{
+			"key": "Total_Price",
+			"value": ""
+		},
+		{
+			"key": "Depositpad",
+			"value": ""
+		},
+		{
+			"key": "CheckIn",
+			"value": ""
+		},
+		{
+			"key": "CheckOut",
+			"value": ""
+		},
+		{
+			"key": "Additional_Needs",
+			"value": ""
+		},
+		{
+			"key": "counter",
+			"value": ""
+		}
+	]
+}
